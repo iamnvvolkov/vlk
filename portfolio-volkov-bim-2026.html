@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIM-моделирование | ИП Волков Н.В.</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <style>
+        :root {
+            --bg-color: #F7FAFC;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #5B6678;
+            --accent-blue: #0F6CBD;
+            --accent-teal: #14B8A6;
+            --border-color: #D9E2EC;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            margin-top: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Анимации появления --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Главный экран --- */
+        .hero {
+            padding: 80px 0 80px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .hero-label {
+            display: inline-block;
+            background: #EBF8F6;
+            color: var(--accent-teal);
+            padding: 4px 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 2px;
+        }
+        .header-contacts {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .header-contacts a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .header-contacts a:hover {
+            color: var(--accent-teal);
+            text-decoration: underline;
+        }
+        .hero h1 {
+            font-size: 42px;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            line-height: 1.15;
+        }
+        .hero p.thesis {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 820px;
+            margin-bottom: 40px;
+        }
+        
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(15, 108, 189, 0.4); }
+            70% { box-shadow: 0 0 0 14px rgba(15, 108, 189, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(15, 108, 189, 0); }
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: #fff;
+            animation: pulse 2.5s infinite;
+        }
+        .btn-primary:hover {
+            background-color: #0c5a9e;
+            transform: translateY(-2px);
+            animation: none;
+            box-shadow: 0 6px 15px rgba(15, 108, 189, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover {
+            border-color: var(--text-main);
+            transform: translateY(-2px);
+            background-color: var(--text-main);
+            color: #fff;
+        }
+
+        .trust-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 60px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 40px;
+        }
+        .metric p.number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 34px;
+            color: var(--accent-teal);
+            margin: 0 0 5px 0;
+            font-weight: bold;
+        }
+        .metric p.label {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .trust-metrics { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 32px; }
+        }
+
+        section { padding: 80px 0; }
+        .section-title { font-size: 28px; color: var(--accent-blue); margin-bottom: 40px; }
+
+        /* --- Компетенции --- */
+        #about { margin-top: 20px; margin-bottom: 20px; }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        @media (max-width: 768px) { .skills-grid { grid-template-columns: 1fr; } }
+        
+        .skills-block {
+            border: 1px solid var(--border-color);
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Разные цвета для блоков */
+        .skills-block:nth-child(1) { background-color: #FFFFFF; border-color: var(--border-color); }
+        .skills-block:nth-child(2) { background-color: #F8FAFC; border-color: #E2E8F0; }
+        .skills-block:nth-child(3) { background-color: #F0FDFA; border-color: #CCFBF1; }
+        .skills-block:nth-child(4) { background-color: #EFF6FF; border-color: #DBEAFE; }
+
+        .skills-block:hover {
+            box-shadow: 8px 8px 0px rgba(31, 41, 55, 0.05);
+            transform: translateY(-3px);
+        }
+        .skills-block h3 { font-size: 18px; color: var(--text-main); border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px; }
+        .skills-block ul { color: var(--text-muted); padding-left: 20px; margin: 0; font-size: 15px;}
+        .skills-block li { margin-bottom: 10px; }
+
+        .tag-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s ease;
+        }
+        .tag:hover { background-color: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+
+        /* --- Проекты --- */
+        #projects-section {
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+        }
+        .projects-list { display: flex; flex-direction: column; gap: 60px; }
+        
+        .project-card {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            transition: all 0.4s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(31, 41, 55, 0.08);
+        }
+        .project-card h3 {
+            margin-top: 0;
+            color: var(--accent-blue);
+            font-size: 22px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 450px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+            overflow: hidden;
+        }
+        .swiper-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .swiper-slide:hover img {
+            transform: scale(1.03);
+        }
+        .swiper-button-next, .swiper-button-prev { color: var(--accent-blue) !important; }
+        .swiper-pagination-bullet-active { background: var(--accent-blue) !important; }
+
+        .project-details p { margin: 12px 0; font-size: 15px;}
+        .project-details strong { color: var(--text-main); }
+
+        /* --- Подвал --- */
+        footer {
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 80px 20px 60px;
+            text-align: center;
+        }
+        footer h2 { margin-bottom: 20px; }
+        .footer-cta { margin-bottom: 40px; }
+        .footer-contacts a {
+            display: inline-block;
+            margin: 5px 15px;
+            color: var(--accent-blue);
+            font-weight: bold;
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+        }
+        .footer-contacts a:hover { color: var(--accent-teal); text-decoration: underline; }
+        .copyright { margin-top: 40px; color: var(--text-muted); font-size: 13px; }
+
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="container reveal">
+        <div class="header-top">
+            <span class="hero-label">ИП ВОЛКОВ Н.В.</span>
+            <div class="header-contacts">
+                ИНН: 211300659800 &nbsp;|&nbsp; 
+                Тел / MAX: <a href="tel:+79778116266">+7 (977) 811-62-66</a> &nbsp;|&nbsp; 
+                Telegram: <a href="https://t.me/volkovnnn" target="_blank">@volkovnnn</a>
+            </div>
+        </div>
+
+        <h1>Профессиональная разработка<br><span style="color: var(--accent-blue);">Цифровых информационных моделей</span></h1>
+        <p class="thesis">Переводим 2D в 3D, исправляем проектные коллизии с помощью ЦИМ, строго выполняем требования заказчиков (EIR) и обеспечиваем успешное прохождение государственных экспертиз.</p>
+        
+        <div class="cta-group">
+            <a href="https://t.me/volkovnnn" target="_blank" class="btn btn-primary">Обсудить проект в Telegram</a>
+            <a href="#projects-section" class="btn btn-secondary">Смотреть портфолио</a>
+        </div>
+
+        <div class="trust-metrics">
+            <div class="metric">
+                <p class="number"><span class="counter" data-target="100">0</span>%</p>
+                <p class="label">Прохождение государственных экспертиз</p>
+            </div>
+            <div class="metric">
+                <p class="number">EIR</p>
+                <p class="label">Опыт работы по стандартам крупных российских заказчиков</p>
+            </div>
+            <div class="metric">
+                <p class="number"><span class="counter" data-target="12">0</span></p>
+                <p class="label">Профильных специалистов могут одновременно подключиться к разработке ЦИМ (при необходимости)</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="about" class="container">
+    <div class="skills-grid">
+        <div class="skills-block reveal">
+            <h3>Наши услуги</h3>
+            <ul>
+                <li>Разработка цифровых информационных моделей (ЦИМ) по 2D документации</li>
+                <li>Разработка ЦИМ по облаку точек</li>
+                <li>Разработка моделей АГР в формате IFC</li>
+                <li>Разработка семейств для Revit и компонентов Tekla Structures</li>
+                <li>Написание плагинов для САПР под индивидуальные задачи</li>
+            </ul>
+        </div>
+
+        <div class="skills-block reveal">
+            <h3>Практический опыт</h3>
+            <ul>
+                <li>Объекты транспортной инфраструктуры (дороги, мосты, подземные пешеходные переходы)</li>
+                <li>Наружные инженерные сети, благоустройство</li>
+                <li>Многоквартирные дома (МКД) и объекты ИЖС</li>
+                <li>Канализационные очистные сооружения</li>
+            </ul>
+        </div>
+
+        <div class="skills-block reveal">
+            <h3>Преимущества работы с нашей командой</h3>
+            <ul>
+                <li><strong>Стандарты:</strong> Опыт работы с требованиями частных заказчиков (Сбер, Capital Group, Marks Group).</li>
+                <li><strong>Качество:</strong> Внимание не только к геометрии, но и к проектным решениям.</li>
+                <li><strong>Предсказуемость:</strong> Ориентация на прозрачный и проверяемый результат.</li>
+                <li><strong>Ответственность:</strong> Строгое соблюдение сроков.</li>
+                <li><strong>Ресурсы:</strong> Команда специалистов по различным дисциплинам.</li>
+            </ul>
+        </div>
+
+        <div class="skills-block reveal">
+            <h3>Программный стек</h3>
+            <div class="tag-container" style="margin-top: 15px;">
+                <span class="tag">Autodesk Revit</span>
+                <span class="tag">Tekla Structures</span>
+                <span class="tag">Civil 3D</span>
+                <span class="tag">Топоматик Robur</span>
+                <span class="tag">Rhino + Grasshopper</span>
+                <span class="tag">Navisworks</span>
+                <span class="tag">СОД (SDE)</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="projects-section">
+    <div class="container">
+        <h2 class="section-title reveal">Реализованные проекты</h2>
+        <div class="projects-list">
+            
+            <div class="project-card reveal">
+                <h3>Пешеходный мост через оз. Черное</h3>
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="images/1.1.jpg" alt="Мост фото 1"></div>
+                        <div class="swiper-slide"><img src="images/1.2.jpg" alt="Мост фото 2"></div>
+                        <div class="swiper-slide"><img src="images/1.3.jpg" alt="Мост фото 3"></div>
+                        <div class="swiper-slide"><img src="images/1.4.jpg" alt="Мост фото 4"></div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <div class="project-details">
+                    <p><strong>Разделы:</strong> Наружные инженерные сети, автомобильная дорога, стальной пешеходный мост.</p>
+                    <p><strong>Результат:</strong> Получено положительное заключение в Московской областной государственной экспертизе (МОГЭ).</p>
+                    <p><strong>Особенности реализации:</strong> Формирование сложной криволинейной геометрии пролетного строения потребовало применения связки Rhino + Grasshopper. Это позволило добиться идеальной точности форм.</p>
+                </div>
+                <div class="tag-container">
+                    <span class="tag">Tekla Structures</span>
+                    <span class="tag">Топоматик Robur</span>
+                    <span class="tag">Rhino + Grasshopper</span>
+                </div>
+            </div>
+
+            <div class="project-card reveal">
+                <h3>Путепровод в Московской области</h3>
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="images/2.1.jpg" alt="Путепровод 1 фото 1"></div>
+                        <div class="swiper-slide"><img src="images/2.2.jpg" alt="Путепровод 1 фото 2"></div>
+                        <div class="swiper-slide"><img src="images/2.3.jpg" alt="Путепровод 1 фото 3"></div>
+                        <div class="swiper-slide"><img src="images/2.4.jpg" alt="Путепровод 1 фото 4"></div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <div class="project-details">
+                    <p><strong>Разделы:</strong> Наружные сети, существующая обстановка (сооружения, сети, генплан), автодорога, путепровод с металлическим пролетным строением, 2 башни перехода с внутренним инженерным оборудованием, шумозащитные экраны </p>
+                    <p><strong>Результат:</strong> Получено положительное заключение в Московской областной государственной экспертизе (МОГЭ).</p>
+                    <p><strong>Особенности реализации:</strong> Сжатые сроки (40 рабочих дней), чтобы заказчик избежал штрафных санкций. Была организована совместная работа 9 специалистов. В процессе устранения коллизий заказчику регулярно отправлялись отчеты, что позволило откорректировать проектную документацию до передачи в экспертизу.</p>
+                </div>
+                <div class="tag-container">
+                    <span class="tag">Revit</span>
+                    <span class="tag">Tekla Structures</span>
+                    <span class="tag">Топоматик Robur</span>
+                    <span class="tag">Rhino + Grasshopper</span>
+                </div>
+            </div>
+
+            <div class="project-card reveal">
+                <h3>Путепровод в г. Москве</h3>
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="images/3.1.jpg" alt="Путепровод 2 фото 1"></div>
+                        <div class="swiper-slide"><img src="images/3.2.jpg" alt="Путепровод 2 фото 2"></div>
+                        <div class="swiper-slide"><img src="images/3.3.jpg" alt="Путепровод 2 фото 3"></div>
+                        <div class="swiper-slide"><img src="images/3.4.jpg" alt="Путепровод 2 фото 4"></div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <div class="project-details">
+                    <p><strong>Разделы:</strong> Наружные инженерные сети, существующая обстановка, путепровод с металлическими и железобетонными пролетными строениями, 4 башни перехода с инженерией.</p>
+                    <p><strong>Результат:</strong> Получено положительное заключение (на КУ) в Московской государсвтенной экспертизе (МГЭ).</p>
+                    <p><strong>Особенности реализации:</strong> Кропотливое соблюдение новых требований МГЭ, которые вступили в силу вместе со стартом проекта. Наша команда оперативно подстроила процессы, разработав модель согласно новым требованиям к структуре и атрибутам.</p>
+                </div>
+                <div class="tag-container">
+                    <span class="tag">Revit</span>
+                    <span class="tag">Tekla Structures</span>
+                    <span class="tag">Navisworks</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<footer id="contact">
+    <div class="container reveal">
+        <h2 style="color: var(--text-main);">Готовы обсудить проект?</h2>
+        <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 30px;">Напишите мне, чтобы оценить сроки и стоимость разработки ЦИМ для вашего объекта.</p>
+        
+        <div class="footer-cta">
+            <a href="https://t.me/volkovnnn" target="_blank" class="btn btn-primary" style="font-size: 16px;">Написать в Telegram</a>
+        </div>
+
+        <div class="footer-contacts">
+            <a href="mailto:iam.nvvolkov@gmail.com">iam.nvvolkov@gmail.com</a>
+            <a href="tel:+79778116266">Тел / MAX: +7 (977) 811-62-66</a>
+            <a href="https://t.me/volkovnnn" target="_blank">Telegram: @volkovnnn</a>
+        </div>
+        
+        <p class="copyright">ИНН: 211300659800 &nbsp;|&nbsp; &copy; 2026 ИП Волков Николай Владимирович.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        effect: "fade",
+        fadeEffect: { crossFade: true },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        loop: true,
+        spaceBetween: 0,
+        speed: 600
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const reveals = document.querySelectorAll('.reveal');
+        
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+
+                if (entry.target.querySelector('.counter')) {
+                    animateCounters();
+                }
+                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
+
+        reveals.forEach(reveal => {
+            revealObserver.observe(reveal);
+        });
+
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                let count = 0;
+                const increment = target / 35;
+                const updateCount = () => {
+                    count += increment;
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count);
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
